@@ -13,7 +13,7 @@ The Smart Travel Planning Assistant is an agentic AI travel-planning system that
 - receive personalized itineraries
 - use saved preferences and travel history for better recommendations
 
-The intended design uses a Retrieval-Augmented Generation (RAG) pipeline backed by FAISS. The assistant should retrieve relevant destination, hotel, and itinerary information from local travel documents and combine that with tool-based planning logic.
+The intended design uses a Retrieval-Augmented Generation (RAG) pipeline backed by FAISS. In this project, FAISS is the chosen vector store that satisfies the vector DB requirement from the project brief. The assistant should retrieve relevant destination, hotel, and itinerary information from local travel documents and combine that with tool-based planning logic.
 
 The long-term goal is a LangChain-driven agent that decides whether to:
 
@@ -33,7 +33,7 @@ The long-term goal is a LangChain-driven agent that decides whether to:
 | Backend | FastAPI |
 | Agent Orchestration | LangChain Agent |
 | LLM | OpenAI via `langchain-openai` |
-| Vector Store | FAISS (`faiss-cpu`) |
+| Vector Store / Vector DB Layer | FAISS (`faiss-cpu`) |
 | Relational Database | PostgreSQL (`smart_travel_planner`) |
 | Observability | LangSmith |
 | ORM | SQLAlchemy |
@@ -116,7 +116,7 @@ These policy PDFs are documentation assets. They are not part of the travel RAG 
 The system uses PostgreSQL for relational data and FAISS for vector storage.
 
 - PostgreSQL stores users, trips, conversations, document metadata, and access policies.
-- FAISS is intended to store embedded travel-document chunks on disk.
+- FAISS is the vector search layer for embedded travel-document chunks and acts as the project's vector DB implementation.
 
 ### A. User and Auth Tables
 
@@ -284,6 +284,7 @@ Important note:
 - Day-by-day plans belong in `itineraries/`.
 - PostgreSQL should store only metadata and chunks, not binary PDF content.
 - FAISS should be the bridge between chunk embeddings and retrieval.
+- When the project brief says `Vector DB`, this project implements that requirement using FAISS.
 - Role-based retrieval should use `role_access_policies` before returning document context.
 - Long-term personalization should come from `user_preferences`, `user_memory`, and `trips`.
 - `.env.example` should be copied to `.env` locally and never committed with secrets.
